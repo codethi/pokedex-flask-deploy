@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="imagem/png" href="../static/img/pokebola-go.png" />
+    <title>Pokedéx</title>
+</head>
+
+<body>
+    <section class="container mt-5">
+
+        <div class="row mb-5 align-items-center">
+            <div class="col-md-2 d-flex justify-content-center">
+                <img src="../static/img/pokebola-go.png" alt="" width="80">
+            </div>
+            <div class="col-md-10">
+                <h1>Pokedéx</h1>
+            </div>
+        </div>
+
+        <div class="row bg-white p-4 rounded">
+            <div class="col">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active fs-4 fw-bold text-decoration-none text-danger" id="pokedex-tab"
+                            data-bs-toggle="tab" data-bs-target="#pokedex" type="button" role="tab"
+                            aria-controls="pokedex" aria-selected="true">Pokedéx</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fs-4 fw-bold text-decoration-none text-danger" id="cadastro-tab"
+                            data-bs-toggle="tab" data-bs-target="#cadastro" type="button" role="tab"
+                            aria-controls="cadastro" aria-selected="false">Cadastrar</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fs-4 fw-bold text-decoration-none text-danger" id="adm-tab"
+                            data-bs-toggle="tab" data-bs-target="#adm" type="button" role="tab" aria-controls="adm"
+                            aria-selected="false">Adm</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="pokedex" role="tabpanel" aria-labelledby="pokedex-tab">
+
+                        <div class="row pt-5">
+                            <div class="col ">
+                                <form action="/filter" method="POST" class="d-flex ps-5 pe-5">
+                                    <input class="form-control" type="search" placeholder="Pesquisar"
+                                        aria-label="Search" id="search" name="search">
+                                    <button class="btn btn-danger" type="submit">Pesquisar</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Segunda forma de pesquisa - por parametro de rota -->
+
+                        <!-- <div class="row pt-5">
+                            <div class="col ">
+                                <ul class="nav justify-content-center">
+                                    <li class="nav-item">
+                                        <a class="nav-link fs-5 fw-bold text-decoration-none text-danger" href="/filter/Grass">Grass</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link fs-5 fw-bold text-decoration-none text-danger" href="/filter/Fire">Fire</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link fs-5 fw-bold text-decoration-none text-danger" href="/filter/Water">Water</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> -->
+
+                        <div class="row pt-5 pe-5">
+                            <div class="col d-flex justify-content-end">
+                                <a class="fs-5 fw-bold text-decoration-none text-danger" href="/">Listar Tudo</a>
+                            </div>
+                        </div>
+                        <div class="row row-cols-1 row-cols-md-3 g-4 p-5">
+                            {% for pokemon in pokedex %}
+                            <div class="col d-flex justify-content-center  ">
+                                <div class="card shadow">
+                                    <img src="{{pokemon.imagem}}" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{pokemon.nome}}</h5>
+                                        <p class="card-text">{{pokemon.descricao}}</p>
+                                        <div class="card-footer text-muted">
+                                            Tipo: {{pokemon.tipo}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+
+                        </div>
+                    </div>
+                    <div class="tab-pane fade " id="cadastro" role="tabpanel" aria-labelledby="cadastro-tab">
+                        <form action='/new' method="POST" class='p-5'>
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="nome" placeholder="Nome do pokemon"
+                                    name="nome">
+                            </div>
+                            <div class="mb-3">
+                                <label for="imagem" class="form-label">Imagem</label>
+                                <input type="text" class="form-control" id="imagem" placeholder="Imagem do pokemon"
+                                    name="imagem">
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipo" class="form-label">Tipo</label>
+                                <input type="text" class="form-control" id="tipo" placeholder="Tipo do pokemon"
+                                    name="tipo">
+                            </div>
+                            <div class="mb-3">
+                                <label for="descricao" class="form-label">Descrição</label>
+                                <textarea class="form-control" id="descricao" rows="3" name="descricao"></textarea>
+                            </div>
+
+                            <div class="d-flex justify-content-center mt-5">
+                                <button type="submit" class="btn btn-danger w-25 ">Cadastrar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade p-5" id="adm" role="tabpanel" aria-labelledby="adm-tab">
+                        <table class="table table-white table-hover ">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Imagem</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Descrição</th>
+                                    <th scope="col">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pokemon in pokedex %}
+                                <tr>
+                                    <th scope="row">{{pokemon.id}}</th>
+                                    <td>{{pokemon.nome}}</td>
+                                    <td>{{pokemon.imagem}}</td>
+                                    <td>{{pokemon.tipo}}</td>
+                                    <td>{{pokemon.descricao}}</td>
+                                    <td>
+                                        <a class="btn btn-danger w-100 mb-2" href="/{{pokemon.id}}">Apagar</a>
+                                        <a class="btn btn-info w-100" href="/editar/{{pokemon.id}}">Editar</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    {% if pokemon != undefined %}
+    <section class="modal">
+        <div id="card">
+            <a href="/" id="fechar"><i class="fa fa-times" aria-hidden="true"></i></a>
+            <h2>Atualizar Pokemon</h2>
+            <hr>
+            <form action="/editar/{{pokemon.id}}" method="POST" class='p-5'>
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="nome" placeholder="Nome do pokemon" name="nome" value='{{pokemon.nome}}'>
+                </div>
+                <div class="mb-3">
+                    <label for="imagem" class="form-label">Imagem</label>
+                    <input type="text" class="form-control" id="imagem" placeholder="Imagem do pokemon" name="imagem" value='{{pokemon.imagem}}'>
+                </div>
+                <div class="mb-3">
+                    <label for="tipo" class="form-label">Tipo</label>
+                    <input type="text" class="form-control" id="tipo" placeholder="Tipo do pokemon" name="tipo" value='{{pokemon.tipo}}'>
+                </div>
+                <div class="mb-3">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <textarea class="form-control" id="descricao" rows="3" name="descricao">
+                        {{pokemon.descricao}}
+                    </textarea>
+                </div>
+
+                <div class="d-flex justify-content-center mt-5">
+                    <a type="button" class="btn btn-danger" href='/'>Cancelar</a>
+                    <button type="submit" class="btn btn-success ms-3">Atualizar</button>
+                </div>
+            </form>
+
+        </div>
+    </section>
+    {% endif %}
+
+
+    {% if pokemonDelete != undefined %}
+    <section class="modal">
+        <div id="card">
+
+            <a href="/" id="fechar"><i class="fa fa-times" aria-hidden="true"></i></a>
+            <h2>Confirmação</h2>
+            <hr>
+
+            <p>Deseja realmente apagar o pokemon: {{pokemonDelete.nome}} </p>
+            <div class='d-flex justify-content-center pb-5'>
+                <a class="btn btn-danger" id="close" href="/">Não</a>
+                <a class="btn btn-success ms-3" href="/delete/{{pokemonDelete.id}}">Sim</a>
+            </div>
+        </div>
+    </section> 
+    {% endif %}
+
+    <footer class='d-flex justify-content-center'>
+        <p>Todos os direitos reservados:
+            <a class='fs-6 text-decoration-none text-danger' target="_blank" href="https://thicode.netlify.app/">
+                Thi Code
+            </a>
+            &copy;
+        </p>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+        integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"
+        integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
